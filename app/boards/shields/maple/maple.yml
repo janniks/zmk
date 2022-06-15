@@ -1,0 +1,12 @@
+file_format: "1"
+id: maple
+name: Maple
+type: shield
+url: https://github.com/janniks/maple
+requires: [pro_micro]
+exposes: [i2c_oled]
+features:
+  - keys
+siblings:
+  - maple_left
+  - maple_right

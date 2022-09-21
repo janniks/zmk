@@ -73,7 +73,8 @@ Ideas/Todo
 - add toggle for colemak! might be hard to do while keeping combos
 
 Guide/Hints
-- right side also uses LALT
+- right side also uses LALT instead of RALT (taken from qmk)
+- use `&bt BT_CLR` if bluetooth doesn't work
 
 
                                Template

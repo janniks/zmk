@@ -23,32 +23,54 @@
     // mod-morphs
     mm_lbrc: mod_morph_shft_rbrc {
       compatible = "zmk,behavior-mod-morph";
-      label = "SHFT_LBRC_TO_RBRC";
+      label = "MM_SHFT_LBRC_TO_RBRC";
       #binding-cells = <0>;
       bindings = <&kp LBRC>, <&kp RBRC>;
       mods = <(MOD_LSFT|MOD_RSFT)>;
     };
     mm_lpar: mod_morph_shft_rpar {
       compatible = "zmk,behavior-mod-morph";
-      label = "SHFT_LPAR_TO_RPAR";
+      label = "MM_SHFT_LPAR_TO_RPAR";
       #binding-cells = <0>;
       bindings = <&kp LPAR>, <&kp RPAR>;
       mods = <(MOD_LSFT|MOD_RSFT)>;
     };
     mm_lbkt: mod_morph_shft_rbkt {
       compatible = "zmk,behavior-mod-morph";
-      label = "SHFT_LBKT_TO_RBKT";
+      label = "MM_SHFT_LBKT_TO_RBKT";
       #binding-cells = <0>;
       bindings = <&kp LBKT>, <&kp RBKT>;
       mods = <(MOD_LSFT|MOD_RSFT)>;
     };
     mm_bspc: mod_morph_shft_del {
       compatible = "zmk,behavior-mod-morph";
-      label = "SHFT_BSPC_TO_DEL";
+      label = "MM_SHFT_BSPC_TO_DEL";
       #binding-cells = <0>;
       bindings = <&kp BSPC>, <&kp DEL>;
       mods = <(MOD_LSFT|MOD_RSFT)>;
       masked_mods = <(MOD_LSFT)>;
+    };
+    // custom: haven't got tap-dance repeat arrow keys to work yet
+    td_combo_right: tap_dance_combo_right {
+      compatible = "zmk,behavior-tap-dance";
+      label = "TD_COMBO_RIGHT";
+      #binding-cells = <0>;
+      tapping-term-ms = <200>;
+      bindings =<&mt (RCTRL|RSFT) RIGHT>, <&kp RIGHT>;
+    };
+    td_combo_down: tap_dance_combo_down {
+      compatible = "zmk,behavior-tap-dance";
+      label = "TD_COMBO_DOWN";
+      #binding-cells = <0>;
+      tapping-term-ms = <200>;
+      bindings =<&mt (LALT|RCTRL) DOWN>, <&kp DOWN>;
+    };
+    td_combo_left: tap_dance_combo_left {
+      compatible = "zmk,behavior-tap-dance";
+      label = "TD_COMBO_LEFT";
+      #binding-cells = <0>;
+      tapping-term-ms = <200>;
+      bindings =<&mt (RCMD|LALT) LEFT>, <&kp LEFT>;
     };
   };
 
@@ -68,7 +90,7 @@
     combo_esc {
       timeout-ms = <50>;
       key-positions = <10 11>;
-      bindings = <&kp ESC>;
+      bindings = <&mt (LSFT|LCTRL) ESC>;
     };
     combo_up {
       timeout-ms = <50>;
@@ -78,17 +100,17 @@
     combo_right {
       timeout-ms = <50>;
       key-positions = <18 19>;
-      bindings = <&kp RIGHT>;
+      bindings = <&mt (RCTRL|RSFT) RIGHT>;
     };
     combo_down {
       timeout-ms = <50>;
       key-positions = <17 18>;
-      bindings = <&kp DOWN>;
+      bindings = <&mt (LALT|RCTRL) DOWN>;
     };
     combo_left {
       timeout-ms = <50>;
       key-positions = <16 17>;
-      bindings = <&kp LEFT>;
+      bindings = <&mt (RCMD|LALT) LEFT>;
     };
     combo_bspc {
       timeout-ms = <50>;

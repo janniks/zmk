@@ -11,3 +11,13 @@ Check out the website to learn more: https://zmk.dev/
 You can also come join our [ZMK Discord Server](https://zmk.dev/community/discord/invite)
 
 To review features, check out the [feature overview](https://zmk.dev/docs/). ZMK is under active development, and new features are listed with the [enhancement label](https://github.com/zmkfirmware/zmk/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) in GitHub. Please feel free to add 👍 to the issue description of any requests to upvote the feature.
+
+## How-To
+
+This repo adds the `maple` board under `app/boards/shields/maple` along with a `./build.sh` script to easily build the keymap.
+Double tap the connect keyboards reset button and drag the respective `.uf2` file to the keyboard (in Finder).
+
+- Make sure Docker is running
+- Open this folder in VS Code
+- Click the popup notification to `Reopen in Container`
+- You can now run the `./build.sh` script from the Terminal in VS Code

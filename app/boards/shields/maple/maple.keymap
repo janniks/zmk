@@ -86,7 +86,7 @@
       #binding-cells = <0>;
       bindings = <&kp BSPC>, <&kp DEL>;
       mods = <(MOD_LSFT|MOD_RSFT)>;
-      masked_mods = <(MOD_LSFT)>;
+      keep-mods = <(MOD_LSFT)>;
     };
     // custom: haven't got tap-dance repeat arrow keys to work yet
     // - needed for home-row mods and arrow-combos on same base layer

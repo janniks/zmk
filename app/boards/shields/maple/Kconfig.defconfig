@@ -4,7 +4,7 @@
 if SHIELD_MAPLE_LEFT
 
 config ZMK_KEYBOARD_NAME
-	default "Maple"
+	default "Maple Keyboard"
 
 config ZMK_SPLIT_ROLE_CENTRAL
 	default y

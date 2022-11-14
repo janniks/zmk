@@ -8,18 +8,56 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 
-#define DEFAULT 0
-#define SYM_L   1
-#define SYM_R   2
+#define QWERTY   0
+#define COLEMAK  1 // DHm
+#define MODS_L   2
+#define MODS_R   3
+#define SYM_L    4
+#define SYM_R    5
 
 &mt {
-  flavor = "tap-preferred";
+  // flavor = "tap-preferred"; // disabled here to override only for &hm keys // https://zmk.dev/docs/behaviors/hold-tap#flavors
   // tapping_term_ms = <200>;
 };
 
 / {
 
   behaviors {
+    // positional hold-taps (home-row)
+    // - don't work with combo-arrow-keys
+    lht: left_hold_tap {
+      compatible = "zmk,behavior-hold-tap";
+      label = "LEFT_HOLD_TAP";
+      #binding-cells = <2>;
+      flavor = "tap-preferred";
+      tapping-term-ms = <175>;
+      quick-tap-ms = <75>;
+      bindings = <&kp>, <&kp>;
+      hold-trigger-key-positions = <5 6 7 8 9 15 16 17 18 19 25 26 27 28 29>; // all right-side key-positions
+      // <5 6 7 8 9 15 16 17 18 19 25 26 27 28 29 32 33>; // all right-side key-positions
+    };
+    rht: right_hold_tap {
+      compatible = "zmk,behavior-hold-tap";
+      label = "RIGHT_HOLD_TAP";
+      #binding-cells = <2>;
+      flavor = "tap-preferred";
+      tapping-term-ms = <175>;
+      quick-tap-ms = <75>;
+      bindings = <&kp>, <&kp>;
+      hold-trigger-key-positions = <0 1 2 3 4 10 11 12 13 14 20 21 22 23 24>; // all left-side key-positions
+      // <0 1 2 3 4 10 11 12 13 14 20 21 22 23 24 30 31>; // all left-side key-positions
+    };
+    // custom behavior for only homerow-mod keys (todo: test these instead of lht&rht)
+    // - should work with combo arrow-keys
+    hm: homerow_mods {
+      compatible = "zmk,behavior-hold-tap";
+      label = "HOMEROW_MODS";
+      #binding-cells = <2>;
+      tapping-term-ms = <150>;
+      quick-tap-ms = <0>;
+      flavor = "tap-preferred";
+      bindings = <&kp>, <&kp>;
+    };
     // mod-morphs
     mm_lbrc: mod_morph_shft_rbrc {
       compatible = "zmk,behavior-mod-morph";
@@ -51,28 +89,40 @@
       masked_mods = <(MOD_LSFT)>;
     };
     // custom: haven't got tap-dance repeat arrow keys to work yet
-    td_combo_right: tap_dance_combo_right {
-      compatible = "zmk,behavior-tap-dance";
-      label = "TD_COMBO_RIGHT";
-      #binding-cells = <0>;
-      tapping-term-ms = <200>;
-      bindings =<&mt (RCTRL|RSFT) RIGHT>, <&kp RIGHT>;
-    };
-    td_combo_down: tap_dance_combo_down {
-      compatible = "zmk,behavior-tap-dance";
-      label = "TD_COMBO_DOWN";
-      #binding-cells = <0>;
-      tapping-term-ms = <200>;
-      bindings =<&mt (LALT|RCTRL) DOWN>, <&kp DOWN>;
-    };
-    td_combo_left: tap_dance_combo_left {
-      compatible = "zmk,behavior-tap-dance";
-      label = "TD_COMBO_LEFT";
-      #binding-cells = <0>;
-      tapping-term-ms = <200>;
-      bindings =<&mt (RCMD|LALT) LEFT>, <&kp LEFT>;
-    };
+    // - needed for home-row mods and arrow-combos on same base layer
+    // - could maybe be combined with quick-tap to fix repeat problem
+    // td_combo_right: tap_dance_combo_right {
+    //   compatible = "zmk,behavior-tap-dance";
+    //   label = "TD_COMBO_RIGHT";
+    //   #binding-cells = <0>;
+    //   tapping-term-ms = <200>;
+    //   bindings =<&mt (RCTRL|RSFT) RIGHT>, <&kp RIGHT>;
+    // };
+    // td_combo_down: tap_dance_combo_down {
+    //   compatible = "zmk,behavior-tap-dance";
+    //   label = "TD_COMBO_DOWN";
+    //   #binding-cells = <0>;
+    //   tapping-term-ms = <200>;
+    //   bindings =<&mt (LALT|RCTRL) DOWN>, <&kp DOWN>;
+    // };
+    // td_combo_left: tap_dance_combo_left {
+    //   compatible = "zmk,behavior-tap-dance";
+    //   label = "TD_COMBO_LEFT";
+    //   #binding-cells = <0>;
+    //   tapping-term-ms = <200>;
+    //   bindings =<&mt (RCMD|LALT) LEFT>, <&kp LEFT>;
+    // };
   };
+
+  // macros {
+  //   mc_hm_cmd: mc_hm_cmd {
+  //     label = "MACRO_HOMEROW_CMD";
+  //     compatible = "zmk,behavior-macro";
+  //     #binding-cells = <0>;
+  //     bindings = <&macro_press &kp LSHFT>, <&macro_tap &kp Z &kp M &kp K>, <&macro_release &kp LSHFT>;
+  //   };
+  // };
+
 
   //          key-positions
   //  0  1  2  3  4    5  6  7  8  9
@@ -100,42 +150,108 @@
     combo_right {
       timeout-ms = <50>;
       key-positions = <18 19>;
-      bindings = <&mt (RCTRL|RSFT) RIGHT>;
+      // bindings = <&mt (RCTRL|RSFT) RIGHT>;
+      bindings = <&kp RIGHT>;
     };
     combo_down {
       timeout-ms = <50>;
       key-positions = <17 18>;
-      bindings = <&mt (LALT|RCTRL) DOWN>;
+      // bindings = <&mt (LALT|RCTRL) DOWN>;
+      bindings = <&kp DOWN>;
     };
     combo_left {
       timeout-ms = <50>;
       key-positions = <16 17>;
-      bindings = <&mt (RCMD|LALT) LEFT>;
+      // bindings = <&mt (RCMD|LALT) LEFT>;
+      bindings = <&kp LEFT>;
     };
     combo_bspc {
       timeout-ms = <50>;
       key-positions = <8 9>;
       bindings = <&mm_bspc>;
     };
+    combo_qwerty {
+      timeout-ms = <50>;
+      key-positions = <10 19>;
+      bindings = <&to QWERTY>;
+    };
+    combo_colemak {
+      timeout-ms = <50>;
+      key-positions = <20 29>;
+      bindings = <&to COLEMAK>;
+    };
+
+    // Backup
+    // combo_hm_l_1 { // don't work because they can't &mo and also hold the initial modifier
+    //   timeout-ms = <100>;
+    //   key-positions = <13 30>;
+    //   bindings = <&mo MODS_L>;
+    //   slow-release;
+    // };
+    // combo_hm_l_2 {
+    //   timeout-ms = <100>;
+    //   key-positions = <12 30>;
+    //   bindings = <&mo MODS_L>;
+    //   slow-release;
+    // };
+    // combo_hm_l_3 {
+    //   timeout-ms = <100>;
+    //   key-positions = <11 30>;
+    //   bindings = <&mo MODS_L>;
+    //   slow-release;
+    // };
+    // combo_hm_l_4 {
+    //   timeout-ms = <100>;
+    //   key-positions = <10 30>;
+    //   bindings = <&mo MODS_L>;
+    //   slow-release;
+    // };
   };
 
   keymap {
     compatible = "zmk,keymap";
 
-    default_layer {
+    qwerty_layer {
       bindings = <
-        &kp Q       &kp W        &kp E       &kp R           &kp T              &kp Y          &kp U       &kp I          &kp O          &kp P
-        &mt LSFT A  &mt LCTRL S  &mt LALT D  &mt LCMD F      &kp G              &kp H          &mt RCMD J  &mt LALT K     &mt RCTRL L    &mt RSFT SEMI
-        &mt LSFT Z  &mt LCTRL X  &mt LALT C  &mt LCMD V      &kp B              &kp N          &mt RCMD M  &mt LALT CMMA  &mt RCTRL DOT  &mt RSFT FSLH
-                                             &mt LCMD SPACE  &lt SYM_L TAB      &lt SYM_R RET  &kp SPACE
+        &kp Q       &kp W        &kp E       &kp R           &kp T              &kp Y          &kp U        &kp I           &kp O           &kp P
+        &kp A       &kp S        &kp D       &kp F           &kp G              &kp H          &kp J  &kp K     &kp L    &kp SEMI
+        &hm LSFT Z  &hm LCTRL X  &hm LALT C  &hm LCMD V      &kp B              &kp N          &rht RCMD M  &rht LALT CMMA  &rht RCTRL DOT  &rht RSFT FSLH
+                                              &lt MODS_L SPACE   &lt SYM_L TAB      &lt SYM_R RET  &lt MODS_R SPACE
+      >;
+    };
+
+    colemak_layer {
+      bindings = <
+        &kp Q       &kp W        &kp F       &kp P           &kp B              &kp J          &kp L        &kp U           &kp Y           &kp SEMI
+        &kp A       &kp R        &kp S       &kp T           &kp G              &kp M          &kp N  &kp E     &kp I    &kp O
+        &hm LSFT Z  &hm LCTRL X  &hm LALT C  &hm LCMD D      &kp V              &kp K          &rht RCMD H  &rht LALT CMMA  &rht RCTRL DOT  &rht RSFT FSLH
+                                             &lt MODS_L SPACE   &lt SYM_L TAB      &lt SYM_R RET  &lt MODS_R SPACE
+      >;
+    };
+
+    mods_l_layer {
+      bindings = <
+        &trans           &trans            &trans           &trans           &trans        &trans     &trans  &trans  &trans  &trans
+        &hm LSFT &trans  &hm LCTRL &trans  &hm LALT &trans  &hm LCMD &trans  &trans        &trans     &trans  &trans  &trans  &trans
+        &trans           &trans            &trans           &trans           &trans        &trans     &trans  &trans  &trans  &trans
+                                                                   &trans    &trans        &trans     &trans
+      >;
+    };
+
+    mods_r_layer {
+      bindings = <
+        &trans  &trans  &trans    &trans    &trans         &trans  &trans           &trans           &trans            &trans
+        &trans  &trans  &trans    &trans    &trans         &trans  &hm RCMD &trans  &hm LALT &trans  &hm RCTRL &trans  &hm RSFT &trans
+        &trans  &trans  &trans    &trans    &trans         &trans  &trans           &trans           &trans            &trans
+                                  &trans    &trans         &trans  &trans
       >;
     };
 
     sym_l_layer {
       bindings = <
-        &trans    &trans  &trans    &trans     &trans         &trans     &kp N7  &kp N8  &kp N9  &trans
-        &kp EXCL  &kp AT  &kp HASH  &kp DLLR   &kp PRCNT      &trans     &kp N4  &kp N5  &kp N6  &trans
-        &trans    &trans  &trans    &kp GRAVE  &kp TILDE      &trans     &kp N1  &kp N2  &kp N3  &trans
+        &trans    &trans  &trans    &trans     &trans         &trans     &kp N7  &kp N8  &kp N9  &kp C_VOL_UP
+        &kp EXCL  &kp AT  &kp HASH  &kp DLLR   &kp PRCNT      &trans     &kp N4  &kp N5  &kp N6  &kp C_VOL_DN
+        &trans    &trans  &trans    &kp GRAVE  &kp TILDE      &trans     &kp N1  &kp N2  &kp N3  &kp C_MUTE
                                     &trans     &trans         &kp MINUS  &kp N0
       >;
     };
@@ -151,11 +267,49 @@
 
     tri_layer {
       bindings = <
-        &trans    &trans  &trans    &trans    &trans         &trans     &trans  &trans  &trans  &trans
-        &trans    &trans  &trans    &trans    &trans         &trans     &trans  &trans  &trans  &trans
-        &trans    &trans  &trans    &trans    &trans         &trans     &trans  &trans  &trans  &trans
-                                    &trans    &trans         &trans     &trans
+        &trans  &trans  &trans    &trans    &trans         &trans     &trans  &trans  &trans  &trans
+        &trans  &trans  &trans    &trans    &trans         &trans     &trans  &trans  &trans  &trans
+        &trans  &trans  &trans    &trans    &trans         &trans     &trans  &trans  &trans  &trans
+                                  &trans    &trans         &trans     &trans
       >;
     };
+
+    // Backup lht/rht base layers
+    // qwerty_layer {
+    //   bindings = <
+    //     &kp Q        &kp W         &kp E        &kp R            &kp T              &kp Y          &kp U        &kp I           &kp O           &kp P
+    //     &lht LSFT A  &lht LCTRL S  &lht LALT D  &lht LCMD F      &kp G              &kp H          &rht RCMD J  &rht LALT K     &rht RCTRL L    &rht RSFT SEMI
+    //     &lht LSFT Z  &lht LCTRL X  &lht LALT C  &lht LCMD V      &kp B              &kp N          &rht RCMD M  &rht LALT CMMA  &rht RCTRL DOT  &rht RSFT FSLH
+    //                                              &mt LCMD SPACE  &lt SYM_L TAB      &lt SYM_R RET  &kp SPACE
+    //   >;
+    // };
+
+    // colemak_layer {
+    //   bindings = <
+    //     &kp Q        &kp W         &kp F        &kp P            &kp B              &kp J          &kp L        &kp U           &kp Y           &kp APOS
+    //     &lht LSFT A  &lht LCTRL R  &lht LALT S  &lht LCMD T      &kp G              &kp M          &rht RCMD N  &rht LALT E     &rht RCTRL I    &rht RSFT O
+    //     &lht LSFT Z  &lht LCTRL X  &lht LALT C  &lht LCMD D      &kp V              &kp K          &rht RCMD H  &rht LALT CMMA  &rht RCTRL DOT  &rht RSFT FSLH
+    //                                              &mt LCMD SPACE  &lt SYM_L TAB      &lt SYM_R RET  &kp SPACE
+    //   >;
+    // };
+
+    // Backup pure base layers
+    // qwerty_layer {
+    //   bindings = <
+    //     &kp Q  &kp W  &kp E  &kp R      &kp T        &kp Y          &kp U        &kp I           &kp O           &kp P
+    //     &kp A  &kp S  &kp D  &kp F      &kp G              &kp H          &kp J  &kp K     &kp L    &kp SEMI
+    //     &kp Z  &kp X  &kp C  &kp V      &kp B              &kp N          &kp M  &kp CMMA  &kp DOT  &kp FSLH
+    //                                              &lt MODS_L SPACE  &lt SYM_L TAB      &lt SYM_R RET  &lt MODS_R SPACE
+    //   >;
+    // };
+
+    // colemak_layer {
+    //   bindings = <
+    //     &kp Q        &kp W         &kp F        &kp P            &kp B              &kp J          &kp L        &kp U           &kp Y           &kp APOS
+    //     &kp A  &kp R  &kp S  &kp T      &kp G              &kp M          &kp N  &kp E     &kp I    &kp O
+    //     &kp Z  &kp X  &kp C  &kp D      &kp V              &kp K          &kp H  &kp CMMA  &kp DOT  &kp FSLH
+    //                                              &lt MODS_L SPACE  &lt SYM_L TAB      &lt SYM_R RET  &lt MODS_R SPACE
+    //   >;
+    // };
   };
 };

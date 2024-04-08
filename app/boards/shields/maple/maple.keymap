@@ -215,16 +215,16 @@
       bindings = <
         &kp Q       &kp W        &kp E       &kp R           &kp T              &kp Y          &kp U        &kp I           &kp O           &kp P
         &kp A       &kp S        &kp D       &kp F           &kp G              &kp H          &kp J  &kp K     &kp L    &kp SEMI
-        &hm LSFT Z  &hm LCTRL X  &hm LALT C  &hm LCMD V      &kp B              &kp N          &rht RCMD M  &rht LALT CMMA  &rht RCTRL DOT  &rht RSFT FSLH
-                                              &lt MODS_L SPACE   &lt SYM_L TAB      &lt SYM_R RET  &lt MODS_R SPACE
+        &hm LSFT Z  &hm LCTRL X  &hm LALT C  &hm LCMD V      &kp B              &kp N          &hm RCMD M  &hm LALT CMMA  &hm RCTRL DOT  &hm RSFT FSLH
+                                             &lt MODS_L SPACE   &lt SYM_L TAB      &lt SYM_R RET  &lt MODS_R SPACE
       >;
     };
 
     colemak_layer {
       bindings = <
-        &kp Q       &kp W        &kp F       &kp P           &kp B              &kp J          &kp L        &kp U           &kp Y           &kp SEMI
-        &kp A       &kp R        &kp S       &kp T           &kp G              &kp M          &kp N  &kp E     &kp I    &kp O
-        &hm LSFT Z  &hm LCTRL X  &hm LALT C  &hm LCMD D      &kp V              &kp K          &rht RCMD H  &rht LALT CMMA  &rht RCTRL DOT  &rht RSFT FSLH
+        &kp Q       &kp W        &kp F       &kp P           &kp B              &kp J          &kp L       &kp U          &kp Y          &kp SEMI
+        &kp A       &kp R        &kp S       &kp T           &kp G              &kp M          &kp N       &kp E          &kp I          &kp O
+        &hm LSFT Z  &hm LCTRL X  &hm LALT C  &hm LCMD D      &kp V              &kp K          &hm RCMD H  &hm LALT CMMA  &hm RCTRL DOT  &hm RSFT FSLH
                                              &lt MODS_L SPACE   &lt SYM_L TAB      &lt SYM_R RET  &lt MODS_R SPACE
       >;
     };
@@ -240,27 +240,47 @@
 
     mods_r_layer {
       bindings = <
-        &trans  &trans  &trans    &trans    &trans         &trans  &trans           &trans           &trans            &trans
-        &trans  &trans  &trans    &trans    &trans         &trans  &hm RCMD &trans  &hm LALT &trans  &hm RCTRL &trans  &hm RSFT &trans
-        &trans  &trans  &trans    &trans    &trans         &trans  &trans           &trans           &trans            &trans
-                                  &trans    &trans         &trans  &trans
+        &trans  &trans  &trans  &trans    &trans         &trans  &trans           &trans           &trans            &trans
+        &trans  &trans  &trans  &trans    &trans         &trans  &hm RCMD &trans  &hm LALT &trans  &hm RCTRL &trans  &hm RSFT &trans
+        &trans  &trans  &trans  &trans    &trans         &trans  &trans           &trans           &trans            &trans
+                                &trans    &trans         &trans  &trans
       >;
     };
+
+    // Home-Row Symbols Backup (ie without "dedicated" arrow keys on right side hold)
+    // sym_l_layer {
+    //   bindings = <
+    //     &trans    &trans  &trans    &trans     &trans         &trans     &kp N7  &kp N8  &kp N9  &kp C_VOL_UP
+    //     &kp EXCL  &kp AT  &kp HASH  &kp DLLR   &kp PRCNT      &trans     &kp N4  &kp N5  &kp N6  &kp C_VOL_DN
+    //     &trans    &trans  &trans    &kp GRAVE  &kp TILDE      &kp PLUS   &kp N1  &kp N2  &kp N3  &kp C_MUTE
+    //                                 &trans     &trans         &kp MINUS  &kp N0
+    //   >;
+    // };
 
     sym_l_layer {
       bindings = <
-        &trans    &trans  &trans    &trans     &trans         &trans     &kp N7  &kp N8  &kp N9  &kp C_VOL_UP
-        &kp EXCL  &kp AT  &kp HASH  &kp DLLR   &kp PRCNT      &trans     &kp N4  &kp N5  &kp N6  &kp C_VOL_DN
-        &trans    &trans  &trans    &kp GRAVE  &kp TILDE      &trans     &kp N1  &kp N2  &kp N3  &kp C_MUTE
-                                    &trans     &trans         &kp MINUS  &kp N0
+        &trans     &kp UNDER  &kp MINUS  &kp PLUS   &kp EQUAL      &kp EQUAL  &kp N7  &kp N8  &kp N9  &kp C_VOL_UP
+        &kp EXCL   &kp AT     &kp HASH   &kp DLLR   &kp PRCNT      &kp PLUS   &kp N4  &kp N5  &kp N6  &kp C_VOL_DN
+        &kp GRAVE  &kp TILDE  &kp CARET  &kp AMPS   &kp STAR       &kp MINUS  &kp N1  &kp N2  &kp N3  &kp C_MUTE
+                                         &trans     &trans         &kp MINUS  &kp N0
       >;
     };
 
+    // Home-Row Symbols Backup (ie without "dedicated" arrow keys on right side hold)
+    // sym_r_layer {
+    //   bindings = <
+    //     &bt BT_CLR    &trans  &trans    &trans    &trans         &kp PLUS   &kp UNDER  &trans    &mm_lbrc  &kp BSLH
+    //     &trans        &trans  &trans    &trans    &trans         &kp CARET  &kp AMPS   &kp STAR  &mm_lpar  &kp APOS
+    //     &trans        &trans  &trans    &trans    &trans         &kp MINUS  &kp EQUAL  &kp PIPE  &mm_lbkt  &kp BSLH
+    //                                     &trans    &trans         &trans     &trans
+    //   >;
+    // };
+
     sym_r_layer {
       bindings = <
-        &bt BT_CLR    &trans  &trans    &trans    &trans         &kp PLUS   &kp UNDER  &trans    &mm_lbrc  &kp BSLH
-        &trans        &trans  &trans    &trans    &trans         &kp CARET  &kp AMPS   &kp STAR  &mm_lpar  &kp APOS
-        &trans        &trans  &trans    &trans    &trans         &kp MINUS  &kp EQUAL  &kp PIPE  &mm_lbkt  &kp BSLH
+        &bt BT_CLR    &trans  &trans    &trans    &trans         &kp PLUS   &kp UNDER  &kp UP     &trans     &trans
+        &trans        &trans  &trans    &trans    &trans         &kp CARET  &kp LEFT   &kp DOWN   &kp RIGHT  &kp APOS
+        &trans        &trans  &trans    &trans    &trans         &kp MINUS  &mm_lbrc   &mm_lpar   &mm_lbkt   &hm RSFT BSLH
                                         &trans    &trans         &trans     &trans
       >;
     };

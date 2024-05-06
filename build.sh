@@ -2,6 +2,8 @@
 
 cd app
 
+west update
+
 # make sure to run in vscode container env via docker
 west build -d build/right -b nice_nano_v2 -- -DSHIELD=maple_right
 west build -d build/left -b nice_nano_v2 -- -DSHIELD=maple_left
